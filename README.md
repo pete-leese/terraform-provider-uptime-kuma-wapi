@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# terraform-provider-uptime-kuma
-Terraform Provider for Uptime-Kuma
-=======
 # terraform-provider-ukumawapi
 
 Developer-friendly & type-safe Terraform SDK specifically catered to leverage *terraform-provider-ukumawapi* API.
@@ -117,4 +113,3 @@ While we value open-source contributions to this terraform provider, this librar
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
 ### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=terraform-provider-ukumawapi&utm_campaign=terraform)
->>>>>>> a7fd6da (Initial Commit)
