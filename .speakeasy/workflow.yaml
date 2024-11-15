@@ -1,0 +1,12 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    TerraformProviderUkumawapi-OAS:
+        inputs:
+            - location: http://192.168.86.94:8000/openapi.json
+        registry:
+            location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
+targets:
+    terraform-provider-ukumawapi:
+        target: terraform
+        source: TerraformProviderUkumawapi-OAS

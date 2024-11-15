@@ -1,0 +1,25 @@
+configVersion: 2.0.0
+generation:
+  baseServerUrl: http://192.168.86.94:8000/openapi.json
+  sdkClassName: TerraformProviderUkumawapi
+  maintainOpenAPIOrder: true
+  usageSnippets:
+    optionalPropertyRendering: withExample
+  useClassNamesForArrayFields: true
+  fixes:
+    nameResolutionDec2023: true
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+  auth:
+    oAuth2ClientCredentialsEnabled: true
+    oAuth2PasswordEnabled: true
+terraform:
+  version: 0.0.1
+  additionalDataSources: []
+  additionalDependencies: {}
+  additionalResources: []
+  allowUnknownFieldsInWeakUnions: false
+  author: speakeasy
+  defaultErrorName: APIError
+  environmentVariables: []
+  packageName: terraform-provider-ukumawapi
