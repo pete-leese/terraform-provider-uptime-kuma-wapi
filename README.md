@@ -40,14 +40,14 @@ To install this provider, copy and paste this code into your Terraform configura
 ```hcl
 terraform {
   required_providers {
-    terraform-provider-ukumawapi = {
-      source  = "speakeasy/terraform-provider-ukumawapi"
-      version = "0.0.1"
+    ukumawapi = {
+      source  = "speakeasy/ukumawapi"
+      version = "0.0.4"
     }
   }
 }
 
-provider "terraform-provider-ukumawapi" {
+provider "ukumawapi" {
   # Configuration options
 }
 ```
@@ -83,7 +83,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
 
 Terraform allows you to use local provider builds by setting a `dev_overrides` block in a configuration file called `.terraformrc`. This block overrides all other configured installation methods.
 
-1. Execute `go build` to construct a binary called `terraform-provider-terraform-provider-ukumawapi`
+1. Execute `go build` to construct a binary called `terraform-provider-ukumawapi`
 2. Ensure that the `.terraformrc` file is configured with a `dev_overrides` section such that your local copy of terraform can see the provider binary
 
 Terraform searches for the `.terraformrc` file in your home directory and applies any configuration settings you set.
@@ -92,7 +92,7 @@ Terraform searches for the `.terraformrc` file in your home directory and applie
 provider_installation {
 
   dev_overrides {
-      "registry.terraform.io/speakeasy/terraform-provider-ukumawapi" = "<PATH>"
+      "registry.terraform.io/speakeasy/ukumawapi" = "<PATH>"
   }
 
   # For all other providers, install them directly from their origin provider

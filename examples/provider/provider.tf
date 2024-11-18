@@ -1,12 +1,12 @@
 terraform {
   required_providers {
-    terraform-provider-ukumawapi = {
-      source  = "speakeasy/terraform-provider-ukumawapi"
-      version = "0.0.1"
+    ukumawapi = {
+      source  = "speakeasy/ukumawapi"
+      version = "0.0.4"
     }
   }
 }
 
-provider "terraform-provider-ukumawapi" {
+provider "ukumawapi" {
   # Configuration options
 }

@@ -4,6 +4,8 @@ sources:
     TerraformProviderUkumawapi-OAS:
         inputs:
             - location: http://192.168.86.94:8000/openapi.json
+        overlays:
+            - location: overlay.yaml
         registry:
             location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
 targets:

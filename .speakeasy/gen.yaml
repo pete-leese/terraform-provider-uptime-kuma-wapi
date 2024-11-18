@@ -14,7 +14,7 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.0.1
+  version: 0.0.4
   additionalDataSources: []
   additionalDependencies: {}
   additionalResources: []
@@ -22,4 +22,4 @@ terraform:
   author: speakeasy
   defaultErrorName: APIError
   environmentVariables: []
-  packageName: terraform-provider-ukumawapi
+  packageName: ukumawapi

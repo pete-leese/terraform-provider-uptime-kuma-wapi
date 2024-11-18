@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
-id: 64d19b44-6c0d-4ff5-86e2-8ddfdcdb3b6e
+id: aef52072-17c5-47d0-8ce3-ced91f5da8fc
 management:
-  docChecksum: 2b0e5f5d192ea97fb69e0b6a211fd3aa
+  docChecksum: c230a2a99b4e0b1ed6fa5854265eb4ed
   docVersion: 0.1.0
-  speakeasyVersion: 1.440.0
-  generationVersion: 2.457.9
-  releaseVersion: 0.0.1
-  configChecksum: cc9c570176a331f2bc073874b73db732
+  speakeasyVersion: 1.440.1
+  generationVersion: 2.460.1
+  releaseVersion: 0.0.4
+  configChecksum: 48834e9b958e7ce9ef3dc0aade28a14c
 features:
   terraform:
     additionalDependencies: 0.1.0
@@ -18,7 +18,6 @@ features:
     unions: 2.81.17
 generatedFiles:
   - .gitattributes
-  - CONTRIBUTING.md
   - USAGE.md
   - examples/README.md
   - examples/provider/provider.tf
@@ -51,8 +50,6 @@ generatedFiles:
   - internal/provider/reflect/struct.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
-  - internal/sdk/.gitignore
-  - internal/sdk/CONTRIBUTING.md
   - internal/sdk/authentication.go
   - internal/sdk/certificationinfo.go
   - internal/sdk/database.go
