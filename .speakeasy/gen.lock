@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: aef52072-17c5-47d0-8ce3-ced91f5da8fc
 management:
-  docChecksum: ea3f61e9d8b2b379d43895cafce7c4fb
+  docChecksum: f648a213ab0352081238b5b8908be6a7
   docVersion: 0.1.0
   speakeasyVersion: 1.441.0
   generationVersion: 2.460.1
-  releaseVersion: 0.2.0
-  configChecksum: 2e6193bc28310836948389256912505e
+  releaseVersion: 0.2.1
+  configChecksum: 7826a9167551fa16bd9b4aa98285cdda
 features:
   terraform:
     additionalDependencies: 0.1.0
@@ -21,7 +21,14 @@ generatedFiles:
   - USAGE.md
   - examples/README.md
   - examples/provider/provider.tf
+  - examples/resources/ukumawapi_backup/resource.tf
+  - examples/resources/ukumawapi_maintenance/resource.tf
   - examples/resources/ukumawapi_monitor/resource.tf
+  - examples/resources/ukumawapi_monitor_tag/resource.tf
+  - examples/resources/ukumawapi_pause/resource.tf
+  - examples/resources/ukumawapi_resume/resource.tf
+  - examples/resources/ukumawapi_status_page/resource.tf
+  - examples/resources/ukumawapi_user/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -34,8 +41,16 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/backup_resource.go
+  - internal/provider/backup_resource_sdk.go
+  - internal/provider/maintenance_resource.go
+  - internal/provider/maintenance_resource_sdk.go
   - internal/provider/monitor_resource.go
   - internal/provider/monitor_resource_sdk.go
+  - internal/provider/monitortag_resource.go
+  - internal/provider/monitortag_resource_sdk.go
+  - internal/provider/pause_resource.go
+  - internal/provider/pause_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -51,6 +66,15 @@ generatedFiles:
   - internal/provider/reflect/primitive.go
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
+  - internal/provider/resume_resource.go
+  - internal/provider/resume_resource_sdk.go
+  - internal/provider/statuspage_resource.go
+  - internal/provider/statuspage_resource_sdk.go
+  - internal/provider/types/monitor_list_item.go
+  - internal/provider/types/notification_list_item.go
+  - internal/provider/types/notificationidlist.go
+  - internal/provider/user_resource.go
+  - internal/provider/user_resource_sdk.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
   - internal/sdk/authentication.go

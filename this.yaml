@@ -122,7 +122,6 @@ paths:
       summary: Upload Backup
       description: Upload a Backup
       operationId: upload_backup_settings_upload_backup_post
-      x-speakeasy-entity-operation: Backup#create
       parameters:
       - required: true
         schema:
@@ -171,7 +170,6 @@ paths:
       summary: Shrink Db
       description: Shrink DataBase
       operationId: shrink_db_database_shrink_post
-     # x-speakeasy-entity-operation: shrink#create
       responses:
         '200':
           description: Successful Response
@@ -201,7 +199,6 @@ paths:
       summary: Create Monitor
       description: Create a Monitor
       operationId: create_monitor_monitors_post
-      x-speakeasy-entity-operation: Monitor#create
       requestBody:
         content:
           application/json:
@@ -317,7 +314,6 @@ paths:
       summary: Pause Monitor
       description: Pause a specific Monitor
       operationId: pause_monitor_monitors__monitor_id__pause_post
-      x-speakeasy-entity-operation: Pause#create
       parameters:
       - required: true
         schema:
@@ -346,7 +342,6 @@ paths:
       summary: Resume Monitor
       description: Resume a specific Monitor
       operationId: resume_monitor_monitors__monitor_id__resume_post
-      x-speakeasy-entity-operation: Resume#create
       parameters:
       - required: true
         schema:
@@ -410,7 +405,6 @@ paths:
       summary: Add Monitor Tag
       description: Add an already created tag to a specific monitor
       operationId: add_monitor_tag_monitors__monitor_id__tag_post
-      x-speakeasy-entity-operation: MonitorTag#create
       parameters:
       - required: true
         schema:
@@ -493,7 +487,6 @@ paths:
       summary: Add Status Page
       description: Add a status page
       operationId: add_status_page_statuspages_post
-      x-speakeasy-entity-operation: StatusPage#create
       requestBody:
         content:
           application/json:
@@ -691,7 +684,6 @@ paths:
       summary: Create Maintenance
       description: Create a Maintenance
       operationId: create_maintenance_maintenance_post
-      x-speakeasy-entity-operation: Maintenance#create
       requestBody:
         content:
           application/json:

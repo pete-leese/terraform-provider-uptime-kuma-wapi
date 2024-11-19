@@ -91,7 +91,14 @@ func (p *UkumawapiProvider) Configure(ctx context.Context, req provider.Configur
 
 func (p *UkumawapiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewBackupResource,
+		NewMaintenanceResource,
 		NewMonitorResource,
+		NewMonitorTagResource,
+		NewPauseResource,
+		NewResumeResource,
+		NewStatusPageResource,
+		NewUserResource,
 	}
 }
 

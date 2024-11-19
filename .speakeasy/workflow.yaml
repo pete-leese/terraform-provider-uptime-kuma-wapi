@@ -4,8 +4,6 @@ sources:
     TerraformProviderUkumawapi-OAS:
         inputs:
             - location: /Users/pete.leese/terraform-provider-ukumawapi/openapi.yaml
-        overlays:
-            - location: /Users/pete.leese/terraform-provider-ukumawapi/overlay.yaml
         registry:
             location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
 targets:
