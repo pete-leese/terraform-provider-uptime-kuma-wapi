@@ -128,7 +128,7 @@ func (r *MonitorTagResource) Create(ctx context.Context, req resource.CreateRequ
 		MonitorID:  monitorID,
 		MonitorTag: monitorTag,
 	}
-	res, err := r.client.Monitor.AddMonitorTagMonitorsMonitorIDTagPost(ctx, request)
+	res, err := r.client.Monitor.AddTag(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

@@ -210,7 +210,7 @@ func (r *MaintenanceResource) Create(ctx context.Context, req resource.CreateReq
 	}
 
 	request := *data.ToSharedMaintenance()
-	res, err := r.client.Maintenance.CreateMaintenanceMaintenancePost(ctx, request)
+	res, err := r.client.Maintenance.Create(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

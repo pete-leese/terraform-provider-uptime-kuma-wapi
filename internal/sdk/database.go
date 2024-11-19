@@ -14,19 +14,19 @@ import (
 	"net/url"
 )
 
-type DataBase struct {
+type Database struct {
 	sdkConfiguration sdkConfiguration
 }
 
-func newDataBase(sdkConfig sdkConfiguration) *DataBase {
-	return &DataBase{
+func newDatabase(sdkConfig sdkConfiguration) *Database {
+	return &Database{
 		sdkConfiguration: sdkConfig,
 	}
 }
 
-// GetDbSizeDatabaseSizeGet - Get Db Size
+// GetSize - Get Db Size
 // Get DataBase Size
-func (s *DataBase) GetDbSizeDatabaseSizeGet(ctx context.Context, opts ...operations.Option) (*operations.GetDbSizeDatabaseSizeGetResponse, error) {
+func (s *Database) GetSize(ctx context.Context, opts ...operations.Option) (*operations.GetDbSizeDatabaseSizeGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_db_size_database_size_get",
@@ -142,9 +142,9 @@ func (s *DataBase) GetDbSizeDatabaseSizeGet(ctx context.Context, opts ...operati
 
 }
 
-// ShrinkDbDatabaseShrinkPost - Shrink Db
+// Shrink Db
 // Shrink DataBase
-func (s *DataBase) ShrinkDbDatabaseShrinkPost(ctx context.Context, opts ...operations.Option) (*operations.ShrinkDbDatabaseShrinkPostResponse, error) {
+func (s *Database) Shrink(ctx context.Context, opts ...operations.Option) (*operations.ShrinkDbDatabaseShrinkPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "shrink_db_database_shrink_post",

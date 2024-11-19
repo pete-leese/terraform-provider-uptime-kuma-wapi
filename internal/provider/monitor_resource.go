@@ -485,7 +485,7 @@ func (r *MonitorResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	request := *data.ToSharedSchemasMonitorMonitor()
-	res, err := r.client.Monitor.CreateMonitorMonitorsPost(ctx, request)
+	res, err := r.client.Monitor.Create(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

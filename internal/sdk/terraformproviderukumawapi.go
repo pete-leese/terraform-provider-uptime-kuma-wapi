@@ -70,9 +70,10 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 type TerraformProviderUkumawapi struct {
 	Users             *Users
 	Settings          *Settings
-	DataBase          *DataBase
+	Database          *Database
 	Monitor           *Monitor
-	StatusPage        *StatusPage
+	Monitors          *Monitors
+	StatusPages       *StatusPages
 	Maintenance       *Maintenance
 	Tags              *Tags
 	CertificationInfo *CertificationInfo
@@ -183,11 +184,13 @@ func New(opts ...SDKOption) *TerraformProviderUkumawapi {
 
 	sdk.Settings = newSettings(sdk.sdkConfiguration)
 
-	sdk.DataBase = newDataBase(sdk.sdkConfiguration)
+	sdk.Database = newDatabase(sdk.sdkConfiguration)
 
 	sdk.Monitor = newMonitor(sdk.sdkConfiguration)
 
-	sdk.StatusPage = newStatusPage(sdk.sdkConfiguration)
+	sdk.Monitors = newMonitors(sdk.sdkConfiguration)
+
+	sdk.StatusPages = newStatusPages(sdk.sdkConfiguration)
 
 	sdk.Maintenance = newMaintenance(sdk.sdkConfiguration)
 

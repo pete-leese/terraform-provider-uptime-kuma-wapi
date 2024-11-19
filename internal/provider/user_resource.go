@@ -128,7 +128,7 @@ func (r *UserResource) Create(ctx context.Context, req resource.CreateRequest, r
 	}
 
 	request := *data.ToSharedRegisterUser()
-	res, err := r.client.Users.CreateUserUsersPost(ctx, request)
+	res, err := r.client.Users.Create(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

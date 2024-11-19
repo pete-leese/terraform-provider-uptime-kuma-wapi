@@ -24,9 +24,9 @@ func newUptime(sdkConfig sdkConfiguration) *Uptime {
 	}
 }
 
-// GetUptimeUptimeGet - Get Uptime
+// Get Uptime
 // Uptime
-func (s *Uptime) GetUptimeUptimeGet(ctx context.Context, opts ...operations.Option) (*operations.GetUptimeUptimeGetResponse, error) {
+func (s *Uptime) Get(ctx context.Context, opts ...operations.Option) (*operations.GetUptimeUptimeGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_uptime_uptime_get",

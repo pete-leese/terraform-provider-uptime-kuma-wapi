@@ -24,9 +24,9 @@ func newCertificationInfo(sdkConfig sdkConfiguration) *CertificationInfo {
 	}
 }
 
-// GetCertInfoCertInfoGet - Get Cert Info
+// Get Cert Info
 // Get Certification Info
-func (s *CertificationInfo) GetCertInfoCertInfoGet(ctx context.Context, opts ...operations.Option) (*operations.GetCertInfoCertInfoGetResponse, error) {
+func (s *CertificationInfo) Get(ctx context.Context, opts ...operations.Option) (*operations.GetCertInfoCertInfoGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_cert_info_cert_info_get",

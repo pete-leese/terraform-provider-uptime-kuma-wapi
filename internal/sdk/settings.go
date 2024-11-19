@@ -25,9 +25,9 @@ func newSettings(sdkConfig sdkConfiguration) *Settings {
 	}
 }
 
-// UploadBackupSettingsUploadBackupPost - Upload Backup
+// UploadBackup - Upload Backup
 // Upload a Backup
-func (s *Settings) UploadBackupSettingsUploadBackupPost(ctx context.Context, request operations.UploadBackupSettingsUploadBackupPostRequest, opts ...operations.Option) (*operations.UploadBackupSettingsUploadBackupPostResponse, error) {
+func (s *Settings) UploadBackup(ctx context.Context, request operations.UploadBackupSettingsUploadBackupPostRequest, opts ...operations.Option) (*operations.UploadBackupSettingsUploadBackupPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "upload_backup_settings_upload_backup_post",

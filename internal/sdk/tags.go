@@ -25,9 +25,9 @@ func newTags(sdkConfig sdkConfiguration) *Tags {
 	}
 }
 
-// GetTagsTagsGet - Get Tags
+// List - Get Tags
 // Get all tags
-func (s *Tags) GetTagsTagsGet(ctx context.Context, opts ...operations.Option) (*operations.GetTagsTagsGetResponse, error) {
+func (s *Tags) List(ctx context.Context, opts ...operations.Option) (*operations.GetTagsTagsGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_tags_tags_get",
@@ -143,9 +143,9 @@ func (s *Tags) GetTagsTagsGet(ctx context.Context, opts ...operations.Option) (*
 
 }
 
-// AddTagsTagsPost - Add Tags
+// Add Tags
 // Add a tag by name and color
-func (s *Tags) AddTagsTagsPost(ctx context.Context, request shared.Tag, opts ...operations.Option) (*operations.AddTagsTagsPostResponse, error) {
+func (s *Tags) Add(ctx context.Context, request shared.Tag, opts ...operations.Option) (*operations.AddTagsTagsPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "add_tags_tags_post",
@@ -288,9 +288,9 @@ func (s *Tags) AddTagsTagsPost(ctx context.Context, request shared.Tag, opts ...
 
 }
 
-// GetTagTagsTagIDGet - Get Tag
+// Get Tag
 // Get a Tag By ID
-func (s *Tags) GetTagTagsTagIDGet(ctx context.Context, request operations.GetTagTagsTagIDGetRequest, opts ...operations.Option) (*operations.GetTagTagsTagIDGetResponse, error) {
+func (s *Tags) Get(ctx context.Context, request operations.GetTagTagsTagIDGetRequest, opts ...operations.Option) (*operations.GetTagTagsTagIDGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_tag_tags__tag_id__get",
@@ -427,9 +427,9 @@ func (s *Tags) GetTagTagsTagIDGet(ctx context.Context, request operations.GetTag
 
 }
 
-// DeleteTagTagsTagIDDelete - Delete Tag
+// Delete Tag
 // Delete a specific Tag By ID
-func (s *Tags) DeleteTagTagsTagIDDelete(ctx context.Context, request operations.DeleteTagTagsTagIDDeleteRequest, opts ...operations.Option) (*operations.DeleteTagTagsTagIDDeleteResponse, error) {
+func (s *Tags) Delete(ctx context.Context, request operations.DeleteTagTagsTagIDDeleteRequest, opts ...operations.Option) (*operations.DeleteTagTagsTagIDDeleteResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "delete_tag_tags__tag_id__delete",

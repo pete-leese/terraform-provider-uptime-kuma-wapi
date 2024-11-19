@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: aef52072-17c5-47d0-8ce3-ced91f5da8fc
 management:
-  docChecksum: f648a213ab0352081238b5b8908be6a7
+  docChecksum: d4ed50a301e8c4aa59d2cb4f0569e694
   docVersion: 0.1.0
   speakeasyVersion: 1.441.0
   generationVersion: 2.460.1
-  releaseVersion: 0.2.1
-  configChecksum: 7826a9167551fa16bd9b4aa98285cdda
+  releaseVersion: 0.3.0
+  configChecksum: e605dc6613536fc6bbf802e20462a62c
 features:
   terraform:
     additionalDependencies: 0.1.0
@@ -15,6 +15,8 @@ features:
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.9
     globalServerURLs: 2.82.1
+    groups: 2.81.2
+    nameOverrides: 2.81.2
     unions: 2.81.17
 generatedFiles:
   - .gitattributes
@@ -172,10 +174,11 @@ generatedFiles:
   - internal/sdk/models/shared/user.go
   - internal/sdk/models/shared/validationerror.go
   - internal/sdk/monitor.go
+  - internal/sdk/monitors.go
   - internal/sdk/pingaverage.go
   - internal/sdk/retry/config.go
   - internal/sdk/settings.go
-  - internal/sdk/statuspage.go
+  - internal/sdk/statuspages.go
   - internal/sdk/tags.go
   - internal/sdk/terraformproviderukumawapi.go
   - internal/sdk/types/bigint.go

@@ -24,9 +24,9 @@ func newPingAverage(sdkConfig sdkConfiguration) *PingAverage {
 	}
 }
 
-// GetAvgPingPingGet - Get Avg Ping
+// Get Avg Ping
 // Get AVG Ping
-func (s *PingAverage) GetAvgPingPingGet(ctx context.Context, opts ...operations.Option) (*operations.GetAvgPingPingGetResponse, error) {
+func (s *PingAverage) Get(ctx context.Context, opts ...operations.Option) (*operations.GetAvgPingPingGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_avg_ping_ping_get",

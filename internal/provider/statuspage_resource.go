@@ -109,7 +109,7 @@ func (r *StatusPageResource) Create(ctx context.Context, req resource.CreateRequ
 	}
 
 	request := *data.ToSharedAddStatusPageRequest()
-	res, err := r.client.StatusPage.AddStatusPageStatuspagesPost(ctx, request)
+	res, err := r.client.StatusPages.Create(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

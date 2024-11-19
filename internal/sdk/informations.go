@@ -24,9 +24,9 @@ func newInformations(sdkConfig sdkConfiguration) *Informations {
 	}
 }
 
-// GetInfoInfoGet - Get Info
+// Get Info
 // Informations
-func (s *Informations) GetInfoInfoGet(ctx context.Context, opts ...operations.Option) (*operations.GetInfoInfoGetResponse, error) {
+func (s *Informations) Get(ctx context.Context, opts ...operations.Option) (*operations.GetInfoInfoGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_info_info_get",

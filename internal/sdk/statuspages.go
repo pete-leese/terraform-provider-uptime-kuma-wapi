@@ -15,22 +15,22 @@ import (
 	"net/url"
 )
 
-type Monitor struct {
+type StatusPages struct {
 	sdkConfiguration sdkConfiguration
 }
 
-func newMonitor(sdkConfig sdkConfiguration) *Monitor {
-	return &Monitor{
+func newStatusPages(sdkConfig sdkConfiguration) *StatusPages {
+	return &StatusPages{
 		sdkConfiguration: sdkConfig,
 	}
 }
 
-// GetAll - Get Monitors
-// Get all Monitors
-func (s *Monitor) GetAll(ctx context.Context, opts ...operations.Option) (*operations.GetMonitorsMonitorsGetResponse, error) {
+// GetAll - Get All Status Pages
+// Get all status pages
+func (s *StatusPages) GetAll(ctx context.Context, opts ...operations.Option) (*operations.GetAllStatusPagesStatuspagesGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "get_monitors_monitors_get",
+		OperationID:    "get_all_status_pages_statuspages_get",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -47,7 +47,7 @@ func (s *Monitor) GetAll(ctx context.Context, opts ...operations.Option) (*opera
 	}
 
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	opURL, err := url.JoinPath(baseURL, "/monitors")
+	opURL, err := url.JoinPath(baseURL, "/statuspages")
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -103,7 +103,7 @@ func (s *Monitor) GetAll(ctx context.Context, opts ...operations.Option) (*opera
 		}
 	}
 
-	res := &operations.GetMonitorsMonitorsGetResponse{
+	res := &operations.GetAllStatusPagesStatuspagesGetResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -118,12 +118,12 @@ func (s *Monitor) GetAll(ctx context.Context, opts ...operations.Option) (*opera
 				return nil, err
 			}
 
-			var out any
+			var out shared.StatusPageList
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Any = out
+			res.StatusPageList = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -143,12 +143,12 @@ func (s *Monitor) GetAll(ctx context.Context, opts ...operations.Option) (*opera
 
 }
 
-// Create Monitor
-// Create a Monitor
-func (s *Monitor) Create(ctx context.Context, request shared.SchemasMonitorMonitor, opts ...operations.Option) (*operations.CreateMonitorMonitorsPostResponse, error) {
+// Create - Add Status Page
+// Add a status page
+func (s *StatusPages) Create(ctx context.Context, request shared.AddStatusPageRequest, opts ...operations.Option) (*operations.AddStatusPageStatuspagesPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "create_monitor_monitors_post",
+		OperationID:    "add_status_page_statuspages_post",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -165,7 +165,7 @@ func (s *Monitor) Create(ctx context.Context, request shared.SchemasMonitorMonit
 	}
 
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	opURL, err := url.JoinPath(baseURL, "/monitors")
+	opURL, err := url.JoinPath(baseURL, "/statuspages")
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -227,7 +227,7 @@ func (s *Monitor) Create(ctx context.Context, request shared.SchemasMonitorMonit
 		}
 	}
 
-	res := &operations.CreateMonitorMonitorsPostResponse{
+	res := &operations.AddStatusPageStatuspagesPostResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -242,12 +242,12 @@ func (s *Monitor) Create(ctx context.Context, request shared.SchemasMonitorMonit
 				return nil, err
 			}
 
-			var out any
+			var out shared.AddStatusPageResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Any = out
+			res.AddStatusPageResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -288,12 +288,12 @@ func (s *Monitor) Create(ctx context.Context, request shared.SchemasMonitorMonit
 
 }
 
-// Delete Monitor
-// Delete a specific Monitor
-func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMonitorsMonitorIDDeleteRequest, opts ...operations.Option) (*operations.DeleteMonitorMonitorsMonitorIDDeleteResponse, error) {
+// Get Status Page
+// Get a status page
+func (s *StatusPages) Get(ctx context.Context, request operations.GetStatusPageStatuspagesSlugGetRequest, opts ...operations.Option) (*operations.GetStatusPageStatuspagesSlugGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "delete_monitor_monitors__monitor_id__delete",
+		OperationID:    "get_status_page_statuspages__slug__get",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -310,7 +310,7 @@ func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMo
 	}
 
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/monitors/{monitor_id}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/statuspages/{slug}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -326,7 +326,7 @@ func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMo
 		defer cancel()
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", opURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -366,7 +366,7 @@ func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMo
 		}
 	}
 
-	res := &operations.DeleteMonitorMonitorsMonitorIDDeleteResponse{
+	res := &operations.GetStatusPageStatuspagesSlugGetResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -381,12 +381,12 @@ func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMo
 				return nil, err
 			}
 
-			var out any
+			var out shared.StatusPage
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Any = out
+			res.StatusPage = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -427,12 +427,12 @@ func (s *Monitor) Delete(ctx context.Context, request operations.DeleteMonitorMo
 
 }
 
-// AddTag - Add Monitor Tag
-// Add an already created tag to a specific monitor
-func (s *Monitor) AddTag(ctx context.Context, request operations.AddMonitorTagMonitorsMonitorIDTagPostRequest, opts ...operations.Option) (*operations.AddMonitorTagMonitorsMonitorIDTagPostResponse, error) {
+// Save Status Page
+// Save a status page
+func (s *StatusPages) Save(ctx context.Context, request operations.SaveStatusPageStatuspagesSlugPostRequest, opts ...operations.Option) (*operations.SaveStatusPageStatuspagesSlugPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "add_monitor_tag_monitors__monitor_id__tag_post",
+		OperationID:    "save_status_page_statuspages__slug__post",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -449,12 +449,12 @@ func (s *Monitor) AddTag(ctx context.Context, request operations.AddMonitorTagMo
 	}
 
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/monitors/{monitor_id}/tag", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/statuspages/{slug}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "MonitorTag", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "SaveStatusPageRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -511,7 +511,7 @@ func (s *Monitor) AddTag(ctx context.Context, request operations.AddMonitorTagMo
 		}
 	}
 
-	res := &operations.AddMonitorTagMonitorsMonitorIDTagPostResponse{
+	res := &operations.SaveStatusPageStatuspagesSlugPostResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -526,12 +526,12 @@ func (s *Monitor) AddTag(ctx context.Context, request operations.AddMonitorTagMo
 				return nil, err
 			}
 
-			var out any
+			var out shared.SaveStatusPageResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Any = out
+			res.SaveStatusPageResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -572,12 +572,12 @@ func (s *Monitor) AddTag(ctx context.Context, request operations.AddMonitorTagMo
 
 }
 
-// DeleteTag - Delete Monitor Tag
-// Delete a tag from a specific monitor
-func (s *Monitor) DeleteTag(ctx context.Context, request operations.DeleteMonitorTagMonitorsMonitorIDTagDeleteRequest, opts ...operations.Option) (*operations.DeleteMonitorTagMonitorsMonitorIDTagDeleteResponse, error) {
+// Delete Status Page
+// Delete a status page
+func (s *StatusPages) Delete(ctx context.Context, request operations.DeleteStatusPageStatuspagesSlugDeleteRequest, opts ...operations.Option) (*operations.DeleteStatusPageStatuspagesSlugDeleteResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "delete_monitor_tag_monitors__monitor_id__tag_delete",
+		OperationID:    "delete_status_page_statuspages__slug__delete",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -594,12 +594,151 @@ func (s *Monitor) DeleteTag(ctx context.Context, request operations.DeleteMonito
 	}
 
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/monitors/{monitor_id}/tag", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/statuspages/{slug}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "MonitorTag", "json", `request:"mediaType=application/json"`)
+	timeout := o.Timeout
+	if timeout == nil {
+		timeout = s.sdkConfiguration.Timeout
+	}
+
+	if timeout != nil {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, *timeout)
+		defer cancel()
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
+
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+		return nil, err
+	}
+
+	req, err = s.sdkConfiguration.Hooks.BeforeRequest(hooks.BeforeRequestContext{HookContext: hookCtx}, req)
+	if err != nil {
+		return nil, err
+	}
+
+	httpRes, err := s.sdkConfiguration.Client.Do(req)
+	if err != nil || httpRes == nil {
+		if err != nil {
+			err = fmt.Errorf("error sending request: %w", err)
+		} else {
+			err = fmt.Errorf("error sending request: no response")
+		}
+
+		_, err = s.sdkConfiguration.Hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
+		return nil, err
+	} else if utils.MatchStatusCodes([]string{}, httpRes.StatusCode) {
+		_httpRes, err := s.sdkConfiguration.Hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
+		if err != nil {
+			return nil, err
+		} else if _httpRes != nil {
+			httpRes = _httpRes
+		}
+	} else {
+		httpRes, err = s.sdkConfiguration.Hooks.AfterSuccess(hooks.AfterSuccessContext{HookContext: hookCtx}, httpRes)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	res := &operations.DeleteStatusPageStatuspagesSlugDeleteResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: httpRes.Header.Get("Content-Type"),
+		RawResponse: httpRes,
+	}
+
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out shared.DeleteStatusPageResponse
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.DeleteStatusPageResponse = &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	case httpRes.StatusCode == 422:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out shared.HTTPValidationError
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.HTTPValidationError = &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	default:
+		rawBody, err := utils.ConsumeRawBody(httpRes)
+		if err != nil {
+			return nil, err
+		}
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+	}
+
+	return res, nil
+
+}
+
+// PostIncident - Post Incident
+// Post an incident to a status page
+func (s *StatusPages) PostIncident(ctx context.Context, request operations.PostIncidentStatuspagesSlugIncidentPostRequest, opts ...operations.Option) (*operations.PostIncidentStatuspagesSlugIncidentPostResponse, error) {
+	hookCtx := hooks.HookContext{
+		Context:        ctx,
+		OperationID:    "post_incident_statuspages__slug__incident_post",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
+
+	o := operations.Options{}
+	supportedOptions := []string{
+		operations.SupportedOptionTimeout,
+	}
+
+	for _, opt := range opts {
+		if err := opt(&o, supportedOptions...); err != nil {
+			return nil, fmt.Errorf("error applying option: %w", err)
+		}
+	}
+
+	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/statuspages/{slug}/incident", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "PostIncidentRequest", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -615,7 +754,7 @@ func (s *Monitor) DeleteTag(ctx context.Context, request operations.DeleteMonito
 		defer cancel()
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, bodyReader)
+	req, err := http.NewRequestWithContext(ctx, "POST", opURL, bodyReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -656,7 +795,7 @@ func (s *Monitor) DeleteTag(ctx context.Context, request operations.DeleteMonito
 		}
 	}
 
-	res := &operations.DeleteMonitorTagMonitorsMonitorIDTagDeleteResponse{
+	res := &operations.PostIncidentStatuspagesSlugIncidentPostResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -671,12 +810,151 @@ func (s *Monitor) DeleteTag(ctx context.Context, request operations.DeleteMonito
 				return nil, err
 			}
 
-			var out any
+			var out shared.PostIncidentResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Any = out
+			res.PostIncidentResponse = &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	case httpRes.StatusCode == 422:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out shared.HTTPValidationError
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.HTTPValidationError = &out
+		default:
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+			return nil, errors.NewAPIError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	default:
+		rawBody, err := utils.ConsumeRawBody(httpRes)
+		if err != nil {
+			return nil, err
+		}
+		return nil, errors.NewAPIError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
+	}
+
+	return res, nil
+
+}
+
+// UnpinIncident - Unpin Incident
+// Unpin an incident from a status page
+func (s *StatusPages) UnpinIncident(ctx context.Context, request operations.UnpinIncidentStatuspagesSlugIncidentUnpinDeleteRequest, opts ...operations.Option) (*operations.UnpinIncidentStatuspagesSlugIncidentUnpinDeleteResponse, error) {
+	hookCtx := hooks.HookContext{
+		Context:        ctx,
+		OperationID:    "unpin_incident_statuspages__slug__incident_unpin_delete",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
+
+	o := operations.Options{}
+	supportedOptions := []string{
+		operations.SupportedOptionTimeout,
+	}
+
+	for _, opt := range opts {
+		if err := opt(&o, supportedOptions...); err != nil {
+			return nil, fmt.Errorf("error applying option: %w", err)
+		}
+	}
+
+	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/statuspages/{slug}/incident/unpin", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	timeout := o.Timeout
+	if timeout == nil {
+		timeout = s.sdkConfiguration.Timeout
+	}
+
+	if timeout != nil {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, *timeout)
+		defer cancel()
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "DELETE", opURL, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
+
+	if err := utils.PopulateSecurity(ctx, req, s.sdkConfiguration.Security); err != nil {
+		return nil, err
+	}
+
+	req, err = s.sdkConfiguration.Hooks.BeforeRequest(hooks.BeforeRequestContext{HookContext: hookCtx}, req)
+	if err != nil {
+		return nil, err
+	}
+
+	httpRes, err := s.sdkConfiguration.Client.Do(req)
+	if err != nil || httpRes == nil {
+		if err != nil {
+			err = fmt.Errorf("error sending request: %w", err)
+		} else {
+			err = fmt.Errorf("error sending request: no response")
+		}
+
+		_, err = s.sdkConfiguration.Hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, nil, err)
+		return nil, err
+	} else if utils.MatchStatusCodes([]string{}, httpRes.StatusCode) {
+		_httpRes, err := s.sdkConfiguration.Hooks.AfterError(hooks.AfterErrorContext{HookContext: hookCtx}, httpRes, nil)
+		if err != nil {
+			return nil, err
+		} else if _httpRes != nil {
+			httpRes = _httpRes
+		}
+	} else {
+		httpRes, err = s.sdkConfiguration.Hooks.AfterSuccess(hooks.AfterSuccessContext{HookContext: hookCtx}, httpRes)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	res := &operations.UnpinIncidentStatuspagesSlugIncidentUnpinDeleteResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: httpRes.Header.Get("Content-Type"),
+		RawResponse: httpRes,
+	}
+
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := utils.ConsumeRawBody(httpRes)
+			if err != nil {
+				return nil, err
+			}
+
+			var out shared.UnpinIncidentResponse
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.UnpinIncidentResponse = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {

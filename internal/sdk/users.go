@@ -25,8 +25,8 @@ func newUsers(sdkConfig sdkConfiguration) *Users {
 	}
 }
 
-// GetUsersUsersGet - Get Users
-func (s *Users) GetUsersUsersGet(ctx context.Context, opts ...operations.Option) (*operations.GetUsersUsersGetResponse, error) {
+// List - Get Users
+func (s *Users) List(ctx context.Context, opts ...operations.Option) (*operations.GetUsersUsersGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_users_users_get",
@@ -142,9 +142,9 @@ func (s *Users) GetUsersUsersGet(ctx context.Context, opts ...operations.Option)
 
 }
 
-// CreateUserUsersPost - Create User
+// Create User
 // Sign up.
-func (s *Users) CreateUserUsersPost(ctx context.Context, request shared.RegisterUser, opts ...operations.Option) (*operations.CreateUserUsersPostResponse, error) {
+func (s *Users) Create(ctx context.Context, request shared.RegisterUser, opts ...operations.Option) (*operations.CreateUserUsersPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "create_user_users_post",
@@ -287,8 +287,8 @@ func (s *Users) CreateUserUsersPost(ctx context.Context, request shared.Register
 
 }
 
-// GetUserUsersUsernameGet - Get User
-func (s *Users) GetUserUsersUsernameGet(ctx context.Context, request operations.GetUserUsersUsernameGetRequest, opts ...operations.Option) (*operations.GetUserUsersUsernameGetResponse, error) {
+// Get User
+func (s *Users) Get(ctx context.Context, request operations.GetUserUsersUsernameGetRequest, opts ...operations.Option) (*operations.GetUserUsersUsernameGetResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "get_user_users__username__get",
@@ -446,8 +446,8 @@ func (s *Users) GetUserUsersUsernameGet(ctx context.Context, request operations.
 
 }
 
-// DeleteUserUsersUsernameDelete - Delete User
-func (s *Users) DeleteUserUsersUsernameDelete(ctx context.Context, request operations.DeleteUserUsersUsernameDeleteRequest, opts ...operations.Option) (*operations.DeleteUserUsersUsernameDeleteResponse, error) {
+// Delete User
+func (s *Users) Delete(ctx context.Context, request operations.DeleteUserUsersUsernameDeleteRequest, opts ...operations.Option) (*operations.DeleteUserUsersUsernameDeleteResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "delete_user_users__username__delete",

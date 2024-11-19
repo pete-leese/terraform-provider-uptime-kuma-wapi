@@ -106,7 +106,7 @@ func (r *ResumeResource) Create(ctx context.Context, req resource.CreateRequest,
 	request := operations.ResumeMonitorMonitorsMonitorIDResumePostRequest{
 		MonitorID: monitorID,
 	}
-	res, err := r.client.Monitor.ResumeMonitorMonitorsMonitorIDResumePost(ctx, request)
+	res, err := r.client.Monitors.Resume(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

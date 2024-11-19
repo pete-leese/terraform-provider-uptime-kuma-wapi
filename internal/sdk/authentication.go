@@ -25,8 +25,8 @@ func newAuthentication(sdkConfig sdkConfiguration) *Authentication {
 	}
 }
 
-// LoginAccessTokenLoginAccessTokenPost - Login Access Token
-func (s *Authentication) LoginAccessTokenLoginAccessTokenPost(ctx context.Context, request shared.BodyLoginAccessTokenLoginAccessTokenPost, opts ...operations.Option) (*operations.LoginAccessTokenLoginAccessTokenPostResponse, error) {
+// LoginAccessToken - Login Access Token
+func (s *Authentication) LoginAccessToken(ctx context.Context, request shared.BodyLoginAccessTokenLoginAccessTokenPost, opts ...operations.Option) (*operations.LoginAccessTokenLoginAccessTokenPostResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
 		OperationID:    "login_access_token_login_access_token_post",
