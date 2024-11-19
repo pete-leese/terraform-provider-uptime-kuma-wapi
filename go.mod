@@ -1,4 +1,4 @@
-module github.com/speakeasy/terraform-provider-ukumawapi
+module github.com/pete-leese/terraform-provider-ukumawapi
 
 go 1.22.0
 

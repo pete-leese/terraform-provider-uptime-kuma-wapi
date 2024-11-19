@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: aef52072-17c5-47d0-8ce3-ced91f5da8fc
 management:
-  docChecksum: c230a2a99b4e0b1ed6fa5854265eb4ed
+  docChecksum: ea3f61e9d8b2b379d43895cafce7c4fb
   docVersion: 0.1.0
-  speakeasyVersion: 1.440.1
+  speakeasyVersion: 1.441.0
   generationVersion: 2.460.1
-  releaseVersion: 0.0.4
-  configChecksum: 48834e9b958e7ce9ef3dc0aade28a14c
+  releaseVersion: 0.2.0
+  configChecksum: 2e6193bc28310836948389256912505e
 features:
   terraform:
     additionalDependencies: 0.1.0
@@ -21,6 +21,7 @@ generatedFiles:
   - USAGE.md
   - examples/README.md
   - examples/provider/provider.tf
+  - examples/resources/ukumawapi_monitor/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -33,6 +34,8 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/monitor_resource.go
+  - internal/provider/monitor_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go

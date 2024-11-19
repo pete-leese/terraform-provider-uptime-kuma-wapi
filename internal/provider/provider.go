@@ -9,8 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk/models/shared"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/shared"
 	"net/http"
 )
 
@@ -38,7 +38,7 @@ func (p *UkumawapiProvider) Schema(ctx context.Context, req provider.SchemaReque
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"server_url": schema.StringAttribute{
-				MarkdownDescription: "Server URL (defaults to http://192.168.0.1:8000)",
+				MarkdownDescription: "Server URL (defaults to http://localhost:8000/openapi.json)",
 				Optional:            true,
 				Required:            false,
 			},
@@ -62,7 +62,7 @@ func (p *UkumawapiProvider) Configure(ctx context.Context, req provider.Configur
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		ServerURL = "http://192.168.0.1:8000"
+		ServerURL = "http://localhost:8000/openapi.json"
 	}
 
 	oAuth2PasswordBearer := new(string)
@@ -90,7 +90,9 @@ func (p *UkumawapiProvider) Configure(ctx context.Context, req provider.Configur
 }
 
 func (p *UkumawapiProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewMonitorResource,
+	}
 }
 
 func (p *UkumawapiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {

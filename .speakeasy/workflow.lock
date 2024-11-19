@@ -1,26 +1,26 @@
-speakeasyVersion: 1.440.1
+speakeasyVersion: 1.441.0
 sources:
     TerraformProviderUkumawapi-OAS:
         sourceNamespace: terraform-provider-ukumawapi-oas
-        sourceRevisionDigest: sha256:1e186c98ab14565180cc96d6f87c37ed2d17a0d4581bf57672cf4113a39dab39
-        sourceBlobDigest: sha256:7b7711cb70a1a82ed2cb1d7cadc46b0491844ff6edfaf407df04b42efc6f4fd9
+        sourceRevisionDigest: sha256:bff396d0f1bc7191877a1e1da671aacb129b3afe7363842ac8fd938973315546
+        sourceBlobDigest: sha256:b5e4ebd322f81b35c05d7aca43b592e39f87c8d5f9814ba50fa267f7387e2b03
         tags:
             - latest
 targets:
     terraform-provider-ukumawapi:
         source: TerraformProviderUkumawapi-OAS
         sourceNamespace: terraform-provider-ukumawapi-oas
-        sourceRevisionDigest: sha256:1e186c98ab14565180cc96d6f87c37ed2d17a0d4581bf57672cf4113a39dab39
-        sourceBlobDigest: sha256:7b7711cb70a1a82ed2cb1d7cadc46b0491844ff6edfaf407df04b42efc6f4fd9
+        sourceRevisionDigest: sha256:bff396d0f1bc7191877a1e1da671aacb129b3afe7363842ac8fd938973315546
+        sourceBlobDigest: sha256:b5e4ebd322f81b35c05d7aca43b592e39f87c8d5f9814ba50fa267f7387e2b03
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
         TerraformProviderUkumawapi-OAS:
             inputs:
-                - location: http://192.168.86.94:8000/openapi.json
+                - location: /Users/pete.leese/terraform-provider-ukumawapi/openapi.yaml
             overlays:
-                - location: overlay.yaml
+                - location: /Users/pete.leese/terraform-provider-ukumawapi/overlay.yaml
             registry:
                 location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
     targets:

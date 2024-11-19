@@ -16,8 +16,8 @@ description: |-
 terraform {
   required_providers {
     ukumawapi = {
-      source  = "speakeasy/ukumawapi"
-      version = "0.0.4"
+      source  = "pete-leese/ukumawapi"
+      version = "0.2.0"
     }
   }
 }
@@ -33,4 +33,4 @@ provider "ukumawapi" {
 ### Optional
 
 - `o_auth2_password_bearer` (String, Sensitive)
-- `server_url` (String) Server URL (defaults to http://192.168.0.1:8000)
+- `server_url` (String) Server URL (defaults to http://localhost:8000/openapi.json)

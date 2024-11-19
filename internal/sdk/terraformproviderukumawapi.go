@@ -5,17 +5,18 @@ package sdk
 import (
 	"context"
 	"fmt"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk/internal/hooks"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk/internal/utils"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk/models/shared"
-	"github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk/retry"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/hooks"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/utils"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/shared"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/retry"
 	"net/http"
 	"time"
 )
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
-	"http://192.168.0.1:8000",
+	"http://localhost:8000/openapi.json",
+	"http://localhost:8000",
 }
 
 // HTTPClient provides an interface for suplying the SDK with a custom HTTP client
@@ -159,7 +160,7 @@ func New(opts ...SDKOption) *TerraformProviderUkumawapi {
 			OpenAPIDocVersion: "0.1.0",
 			SDKVersion:        "0.0.1",
 			GenVersion:        "2.460.1",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.460.1 0.1.0 github.com/speakeasy/terraform-provider-ukumawapi/internal/sdk",
+			UserAgent:         "speakeasy-sdk/go 0.0.1 2.460.1 0.1.0 github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk",
 			Hooks:             hooks.New(),
 		},
 	}

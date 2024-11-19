@@ -6,4 +6,5 @@ actions:
   - target: "$"
     update:
       servers:
-        - url: http://192.168.0.1:8000
+        - url: http://localhost:8000
+ 

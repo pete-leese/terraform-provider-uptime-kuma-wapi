@@ -41,8 +41,8 @@ To install this provider, copy and paste this code into your Terraform configura
 terraform {
   required_providers {
     ukumawapi = {
-      source  = "speakeasy/ukumawapi"
-      version = "0.0.4"
+      source  = "pete-leese/ukumawapi"
+      version = "0.2.0"
     }
   }
 }
@@ -58,6 +58,7 @@ provider "ukumawapi" {
 
 ### Resources
 
+* [ukumawapi_monitor](docs/resources/monitor.md)
 ### Data Sources
 <!-- End Available Resources and Data Sources [operations] -->
 
@@ -92,7 +93,7 @@ Terraform searches for the `.terraformrc` file in your home directory and applie
 provider_installation {
 
   dev_overrides {
-      "registry.terraform.io/speakeasy/ukumawapi" = "<PATH>"
+      "registry.terraform.io/pete-leese/ukumawapi" = "<PATH>"
   }
 
   # For all other providers, install them directly from their origin provider

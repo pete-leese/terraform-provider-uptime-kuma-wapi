@@ -1,6 +1,6 @@
 configVersion: 2.0.0
 generation:
-  baseServerUrl: http://192.168.86.94:8000/openapi.json
+  baseServerUrl: http://localhost:8000/openapi.json
   sdkClassName: TerraformProviderUkumawapi
   maintainOpenAPIOrder: true
   usageSnippets:
@@ -14,12 +14,12 @@ generation:
     oAuth2ClientCredentialsEnabled: true
     oAuth2PasswordEnabled: true
 terraform:
-  version: 0.0.4
+  version: 0.2.0
   additionalDataSources: []
   additionalDependencies: {}
   additionalResources: []
   allowUnknownFieldsInWeakUnions: false
-  author: speakeasy
+  author: pete-leese
   defaultErrorName: APIError
   environmentVariables: []
   packageName: ukumawapi
