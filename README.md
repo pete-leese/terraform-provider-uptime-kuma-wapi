@@ -42,7 +42,7 @@ terraform {
   required_providers {
     ukumawapi = {
       source  = "pete-leese/ukumawapi"
-      version = "0.3.0"
+      version = "0.4.5"
     }
   }
 }
@@ -58,15 +58,17 @@ provider "ukumawapi" {
 
 ### Resources
 
-* [ukumawapi_backup](docs/resources/backup.md)
 * [ukumawapi_maintenance](docs/resources/maintenance.md)
 * [ukumawapi_monitor](docs/resources/monitor.md)
 * [ukumawapi_monitor_tag](docs/resources/monitor_tag.md)
 * [ukumawapi_pause](docs/resources/pause.md)
+* [ukumawapi_post_incident](docs/resources/post_incident.md)
 * [ukumawapi_resume](docs/resources/resume.md)
 * [ukumawapi_status_page](docs/resources/status_page.md)
 * [ukumawapi_user](docs/resources/user.md)
 ### Data Sources
+
+* [ukumawapi_monitor](docs/data-sources/monitor.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Start Testing the provider locally [usage] -->

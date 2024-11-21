@@ -217,7 +217,31 @@ func (r *MonitorTagResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	// Not Implemented; entity does not have a configured DELETE operation
+	var monitorID int64
+	monitorID = data.MonitorID.ValueInt64()
+
+	monitorTag := *data.ToSharedMonitorTag()
+	request := operations.DeleteMonitorTagMonitorsMonitorIDTagDeleteRequest{
+		MonitorID:  monitorID,
+		MonitorTag: monitorTag,
+	}
+	res, err := r.client.Monitor.DeleteTag(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+
 }
 
 func (r *MonitorTagResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

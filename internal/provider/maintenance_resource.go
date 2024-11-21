@@ -23,6 +23,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/operations"
 	"github.com/pete-leese/terraform-provider-ukumawapi/internal/validators"
 )
 
@@ -41,16 +42,17 @@ type MaintenanceResource struct {
 
 // MaintenanceResourceModel describes the resource data model.
 type MaintenanceResourceModel struct {
-	Active      types.Bool     `tfsdk:"active"`
-	Data        types.String   `tfsdk:"data"`
-	DateRange   []types.String `tfsdk:"date_range"`
-	DaysOfMonth []types.String `tfsdk:"days_of_month"`
-	Description types.String   `tfsdk:"description"`
-	IntervalDay types.Int64    `tfsdk:"interval_day"`
-	Strategy    types.String   `tfsdk:"strategy"`
-	TimeRange   []types.String `tfsdk:"time_range"`
-	Title       types.String   `tfsdk:"title"`
-	Weekdays    []types.String `tfsdk:"weekdays"`
+	Active        types.Bool     `tfsdk:"active"`
+	Data          types.String   `tfsdk:"data"`
+	DateRange     []types.String `tfsdk:"date_range"`
+	DaysOfMonth   []types.String `tfsdk:"days_of_month"`
+	Description   types.String   `tfsdk:"description"`
+	IntervalDay   types.Int64    `tfsdk:"interval_day"`
+	MaintenanceID types.Int64    `tfsdk:"maintenance_id"`
+	Strategy      types.String   `tfsdk:"strategy"`
+	TimeRange     []types.String `tfsdk:"time_range"`
+	Title         types.String   `tfsdk:"title"`
+	Weekdays      []types.String `tfsdk:"weekdays"`
 }
 
 func (r *MaintenanceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -118,6 +120,9 @@ func (r *MaintenanceResource) Schema(ctx context.Context, req resource.SchemaReq
 					int64planmodifier.RequiresReplaceIfConfigured(),
 				},
 				Description: `Default: 1; Requires replacement if changed.`,
+			},
+			"maintenance_id": schema.Int64Attribute{
+				Required: true,
 			},
 			"strategy": schema.StringAttribute{
 				Required: true,
@@ -299,7 +304,29 @@ func (r *MaintenanceResource) Delete(ctx context.Context, req resource.DeleteReq
 		return
 	}
 
-	// Not Implemented; entity does not have a configured DELETE operation
+	var maintenanceID int64
+	maintenanceID = data.MaintenanceID.ValueInt64()
+
+	request := operations.DeleteMaintenanceMaintenanceMaintenanceIDDeleteRequest{
+		MaintenanceID: maintenanceID,
+	}
+	res, err := r.client.Maintenance.Delete(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+
 }
 
 func (r *MaintenanceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

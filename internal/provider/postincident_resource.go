@@ -5,10 +5,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	speakeasy_stringplanmodifier "github.com/pete-leese/terraform-provider-ukumawapi/internal/planmodifiers/stringplanmodifier"
@@ -17,53 +20,86 @@ import (
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
-var _ resource.Resource = &StatusPageResource{}
-var _ resource.ResourceWithImportState = &StatusPageResource{}
+var _ resource.Resource = &PostIncidentResource{}
+var _ resource.ResourceWithImportState = &PostIncidentResource{}
 
-func NewStatusPageResource() resource.Resource {
-	return &StatusPageResource{}
+func NewPostIncidentResource() resource.Resource {
+	return &PostIncidentResource{}
 }
 
-// StatusPageResource defines the resource implementation.
-type StatusPageResource struct {
+// PostIncidentResource defines the resource implementation.
+type PostIncidentResource struct {
 	client *sdk.TerraformProviderUkumawapi
 }
 
-// StatusPageResourceModel describes the resource data model.
-type StatusPageResourceModel struct {
-	Msg   types.String `tfsdk:"msg"`
-	Slug  types.String `tfsdk:"slug"`
-	Title types.String `tfsdk:"title"`
+// PostIncidentResourceModel describes the resource data model.
+type PostIncidentResourceModel struct {
+	Content     types.String `tfsdk:"content"`
+	CreatedDate types.String `tfsdk:"created_date"`
+	ID          types.Int64  `tfsdk:"id"`
+	Pin         types.Bool   `tfsdk:"pin"`
+	Slug        types.String `tfsdk:"slug"`
+	Style       types.String `tfsdk:"style"`
+	Title       types.String `tfsdk:"title"`
 }
 
-func (r *StatusPageResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_status_page"
+func (r *PostIncidentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_post_incident"
 }
 
-func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *PostIncidentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "StatusPage Resource",
+		MarkdownDescription: "PostIncident Resource",
 		Attributes: map[string]schema.Attribute{
-			"msg": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
+			"content": schema.StringAttribute{
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Requires replacement if changed.`,
 			},
+			"created_date": schema.StringAttribute{
+				Computed: true,
+			},
+			"id": schema.Int64Attribute{
+				Computed: true,
+			},
+			"pin": schema.BoolAttribute{
+				Computed: true,
+			},
 			"slug": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
 				},
 				Description: `Requires replacement if changed.`,
 			},
-			"title": schema.StringAttribute{
+			"style": schema.StringAttribute{
+				Computed: true,
 				Optional: true,
+				Default:  stringdefault.StaticString("primary"),
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplaceIfConfigured(),
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
+				Description: `Enumerate incident styles. Default: "primary"; must be one of ["info", "warning", "danger", "primary", "light", "dark"]; Requires replacement if changed.`,
+				Validators: []validator.String{
+					stringvalidator.OneOf(
+						"info",
+						"warning",
+						"danger",
+						"primary",
+						"light",
+						"dark",
+					),
+				},
+			},
+			"title": schema.StringAttribute{
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplaceIfConfigured(),
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Requires replacement if changed.`,
 			},
@@ -71,7 +107,7 @@ func (r *StatusPageResource) Schema(ctx context.Context, req resource.SchemaRequ
 	}
 }
 
-func (r *StatusPageResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *PostIncidentResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
@@ -91,8 +127,8 @@ func (r *StatusPageResource) Configure(ctx context.Context, req resource.Configu
 	r.client = client
 }
 
-func (r *StatusPageResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data *StatusPageResourceModel
+func (r *PostIncidentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data *PostIncidentResourceModel
 	var plan types.Object
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
@@ -109,8 +145,15 @@ func (r *StatusPageResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	request := *data.ToSharedAddStatusPageRequest()
-	res, err := r.client.StatusPages.Create(ctx, request)
+	var slug string
+	slug = data.Slug.ValueString()
+
+	postIncidentRequest := *data.ToSharedPostIncidentRequest()
+	request := operations.PostIncidentStatuspagesSlugIncidentPostRequest{
+		Slug:                slug,
+		PostIncidentRequest: postIncidentRequest,
+	}
+	res, err := r.client.StatusPages.PostIncident(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -126,19 +169,19 @@ func (r *StatusPageResource) Create(ctx context.Context, req resource.CreateRequ
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if !(res.AddStatusPageResponse != nil) {
+	if !(res.PostIncidentResponse != nil) {
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedAddStatusPageResponse(res.AddStatusPageResponse)
+	data.RefreshFromSharedPostIncidentResponse(res.PostIncidentResponse)
 	refreshPlan(ctx, plan, &data, resp.Diagnostics)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *StatusPageResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data *StatusPageResourceModel
+func (r *PostIncidentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data *PostIncidentResourceModel
 	var item types.Object
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &item)...)
@@ -161,8 +204,8 @@ func (r *StatusPageResource) Read(ctx context.Context, req resource.ReadRequest,
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *StatusPageResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data *StatusPageResourceModel
+func (r *PostIncidentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data *PostIncidentResourceModel
 	var plan types.Object
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
@@ -181,8 +224,8 @@ func (r *StatusPageResource) Update(ctx context.Context, req resource.UpdateRequ
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *StatusPageResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data *StatusPageResourceModel
+func (r *PostIncidentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data *PostIncidentResourceModel
 	var item types.Object
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &item)...)
@@ -199,31 +242,9 @@ func (r *StatusPageResource) Delete(ctx context.Context, req resource.DeleteRequ
 		return
 	}
 
-	var slug string
-	slug = data.Slug.ValueString()
-
-	request := operations.DeleteStatusPageStatuspagesSlugDeleteRequest{
-		Slug: slug,
-	}
-	res, err := r.client.StatusPages.Delete(ctx, request)
-	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
-		if res != nil && res.RawResponse != nil {
-			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
-		}
-		return
-	}
-	if res == nil {
-		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
-		return
-	}
-	if res.StatusCode != 200 {
-		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
-		return
-	}
-
+	// Not Implemented; entity does not have a configured DELETE operation
 }
 
-func (r *StatusPageResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	resp.Diagnostics.AddError("Not Implemented", "No available import state operation is available for resource status_page.")
+func (r *PostIncidentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resp.Diagnostics.AddError("Not Implemented", "No available import state operation is available for resource post_incident.")
 }

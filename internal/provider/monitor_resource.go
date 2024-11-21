@@ -10,17 +10,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/operations"
 	"github.com/pete-leese/terraform-provider-ukumawapi/internal/validators"
 )
 
@@ -62,6 +58,7 @@ type MonitorResourceModel struct {
 	Maxredirects             types.Int64    `tfsdk:"maxredirects"`
 	Maxretries               types.Int64    `tfsdk:"maxretries"`
 	Method                   types.String   `tfsdk:"method"`
+	MonitorID                types.Int64    `tfsdk:"monitor_id"`
 	MqttPassword             types.String   `tfsdk:"mqtt_password"`
 	MqttSuccessMessage       types.String   `tfsdk:"mqtt_success_message"`
 	MqttTopic                types.String   `tfsdk:"mqtt_topic"`
@@ -91,31 +88,20 @@ func (r *MonitorResource) Schema(ctx context.Context, req resource.SchemaRequest
 		MarkdownDescription: "Monitor Resource",
 		Attributes: map[string]schema.Attribute{
 			"accepted_statuscodes": schema.ListAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.RequiresReplaceIfConfigured(),
-				},
+				Optional:    true,
 				ElementType: types.StringType,
-				Description: `Requires replacement if changed.`,
 				Validators: []validator.List{
 					listvalidator.ValueStringsAre(validators.IsValidJSON()),
 				},
 			},
 			"auth_domain": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"auth_method": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  stringdefault.StaticString(""),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Enumerate authentication methods for monitors. Default: ""; must be one of ["", "basic", "ntlm", "mtls"]; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     stringdefault.StaticString(""),
+				Description: `Enumerate authentication methods for monitors. Default: ""; must be one of ["", "basic", "ntlm", "mtls"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"",
@@ -127,31 +113,15 @@ func (r *MonitorResource) Schema(ctx context.Context, req resource.SchemaRequest
 			},
 			"auth_workstation": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"basic_auth_pass": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"basic_auth_user": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"body": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"data": schema.StringAttribute{
 				Computed:    true,
@@ -162,248 +132,140 @@ func (r *MonitorResource) Schema(ctx context.Context, req resource.SchemaRequest
 			},
 			"database_connection_string": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"database_query": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"dns_resolve_server": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  stringdefault.StaticString("1.1.1.1"),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: "1.1.1.1"; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     stringdefault.StaticString("1.1.1.1"),
+				Description: `Default: "1.1.1.1"`,
 			},
 			"dns_resolve_type": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  stringdefault.StaticString("A"),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: "A"; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     stringdefault.StaticString("A"),
+				Description: `Default: "A"`,
 			},
 			"docker_container": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  stringdefault.StaticString(""),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: ""; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     stringdefault.StaticString(""),
+				Description: `Default: ""`,
 			},
 			"docker_host": schema.Int64Attribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"expiry_notification": schema.BoolAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  booldefault.StaticBool(false),
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: false; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     booldefault.StaticBool(false),
+				Description: `Default: false`,
 			},
 			"headers": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"hostname": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"ignore_tls": schema.BoolAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  booldefault.StaticBool(false),
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: false; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     booldefault.StaticBool(false),
+				Description: `Default: false`,
 			},
 			"interval": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(60),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 60; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(60),
+				Description: `Default: 60`,
 			},
 			"keyword": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"maxredirects": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(10),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 10; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(10),
+				Description: `Default: 10`,
 			},
 			"maxretries": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(0),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 0; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(0),
+				Description: `Default: 0`,
 			},
 			"method": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  stringdefault.StaticString("GET"),
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: "GET"; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     stringdefault.StaticString("GET"),
+				Description: `Default: "GET"`,
+			},
+			"monitor_id": schema.Int64Attribute{
+				Required: true,
 			},
 			"mqtt_password": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"mqtt_success_message": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"mqtt_topic": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"mqtt_username": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"notification_id_list": schema.ListAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.RequiresReplaceIfConfigured(),
-				},
+				Optional:    true,
 				ElementType: types.StringType,
-				Description: `Requires replacement if changed.`,
 				Validators: []validator.List{
 					listvalidator.ValueStringsAre(validators.IsValidJSON()),
 				},
 			},
 			"port": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(53),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 53; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(53),
+				Description: `Default: 53`,
 			},
 			"proxy_id": schema.Int64Attribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"radius_called_station_id": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"radius_calling_station_id": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"radius_password": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"radius_secret": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"radius_username": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 			"resend_interval": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(0),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 0; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(0),
+				Description: `Default: 0`,
 			},
 			"retry_interval": schema.Int64Attribute{
-				Computed: true,
-				Optional: true,
-				Default:  int64default.StaticInt64(60),
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: 60; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     int64default.StaticInt64(60),
+				Description: `Default: 60`,
 			},
 			"type": schema.StringAttribute{
-				Required: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Enumerate monitor types. must be one of ["http", "port", "ping", "keyword", "grpc-keyword", "dns", "docker", "push", "steam", "gamedig", "mqtt", "sqlserver", "postgres", "mysql", "mongodb", "radius", "redis"]; Requires replacement if changed.`,
+				Required:    true,
+				Description: `Enumerate monitor types. must be one of ["http", "port", "ping", "keyword", "grpc-keyword", "dns", "docker", "push", "steam", "gamedig", "mqtt", "sqlserver", "postgres", "mysql", "mongodb", "radius", "redis"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"http",
@@ -427,20 +289,13 @@ func (r *MonitorResource) Schema(ctx context.Context, req resource.SchemaRequest
 				},
 			},
 			"upside_down": schema.BoolAttribute{
-				Computed: true,
-				Optional: true,
-				Default:  booldefault.StaticBool(false),
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Default: false; Requires replacement if changed.`,
+				Computed:    true,
+				Optional:    true,
+				Default:     booldefault.StaticBool(false),
+				Description: `Default: false`,
 			},
 			"url": schema.StringAttribute{
 				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Description: `Requires replacement if changed.`,
 			},
 		},
 	}
@@ -507,6 +362,27 @@ func (r *MonitorResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 	data.RefreshFromInterface(res.Any)
 	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	res1, err := r.client.Monitor.GetAll(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res1 != nil && res1.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
+		}
+		return
+	}
+	if res1 == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res1))
+		return
+	}
+	if res1.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res1.StatusCode), debugResponse(res1.RawResponse))
+		return
+	}
+	if !(res1.Any != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res1.RawResponse))
+		return
+	}
+	data.RefreshFromInterface(res1.Any)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -530,7 +406,31 @@ func (r *MonitorResource) Read(ctx context.Context, req resource.ReadRequest, re
 		return
 	}
 
-	// Not Implemented; we rely entirely on CREATE API request response
+	res, err := r.client.Monitor.GetAll(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode == 404 {
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+	if !(res.Any != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
+		return
+	}
+	data.RefreshFromInterface(res.Any)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -550,7 +450,57 @@ func (r *MonitorResource) Update(ctx context.Context, req resource.UpdateRequest
 		return
 	}
 
-	// Not Implemented; all attributes marked as RequiresReplace
+	var monitorID int64
+	monitorID = data.MonitorID.ValueInt64()
+
+	monitorUpdate := *data.ToSharedMonitorUpdate()
+	request := operations.UpdateMonitorMonitorsMonitorIDPatchRequest{
+		MonitorID:     monitorID,
+		MonitorUpdate: monitorUpdate,
+	}
+	res, err := r.client.Monitors.Update(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+	if !(res.Any != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
+		return
+	}
+	data.RefreshFromInterface(res.Any)
+	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	res1, err := r.client.Monitor.GetAll(ctx)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res1 != nil && res1.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
+		}
+		return
+	}
+	if res1 == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res1))
+		return
+	}
+	if res1.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res1.StatusCode), debugResponse(res1.RawResponse))
+		return
+	}
+	if !(res1.Any != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res1.RawResponse))
+		return
+	}
+	data.RefreshFromInterface(res1.Any)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -574,7 +524,29 @@ func (r *MonitorResource) Delete(ctx context.Context, req resource.DeleteRequest
 		return
 	}
 
-	// Not Implemented; entity does not have a configured DELETE operation
+	var monitorID int64
+	monitorID = data.MonitorID.ValueInt64()
+
+	request := operations.DeleteMonitorMonitorsMonitorIDDeleteRequest{
+		MonitorID: monitorID,
+	}
+	res, err := r.client.Monitor.Delete(ctx, request)
+	if err != nil {
+		resp.Diagnostics.AddError("failure to invoke API", err.Error())
+		if res != nil && res.RawResponse != nil {
+			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res.RawResponse))
+		}
+		return
+	}
+	if res == nil {
+		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
+		return
+	}
+	if res.StatusCode != 200 {
+		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
+		return
+	}
+
 }
 
 func (r *MonitorResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

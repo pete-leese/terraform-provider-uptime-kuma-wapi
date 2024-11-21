@@ -4,6 +4,16 @@ info:
   version: 0.1.0
 servers:
   - url: http://localhost:8000/openapi.json
+x-speakeasy-retries:
+  strategy: backoff
+  backoff:
+    initialInterval: 500 # 500 milliseconds
+    maxInterval: 60000 # 60 seconds
+    maxElapsedTime: 3600000 # 5 minutes
+    exponent: 1.5
+  statusCodes:
+    - 5XX
+  retryConnectionErrors: true
 paths:
   "/users":
     get:
@@ -122,7 +132,6 @@ paths:
       summary: Upload Backup
       description: Upload a Backup
       operationId: upload_backup_settings_upload_backup_post
-      x-speakeasy-entity-operation: Backup#create
       parameters:
       - required: true
         schema:
@@ -187,6 +196,7 @@ paths:
       summary: Get Monitors
       description: Get all Monitors
       operationId: get_monitors_monitors_get
+      x-speakeasy-entity-operation: Monitor#read
       responses:
         '200':
           description: Successful Response
@@ -256,6 +266,7 @@ paths:
       summary: Delete Monitor
       description: Delete a specific Monitor
       operationId: delete_monitor_monitors__monitor_id__delete
+      x-speakeasy-entity-operation: Monitor#delete
       parameters:
       - required: true
         schema:
@@ -283,6 +294,7 @@ paths:
       summary: Update Monitor
       description: Update a specific Monitor
       operationId: update_monitor_monitors__monitor_id__patch
+      x-speakeasy-entity-operation: Monitor#update
       parameters:
       - required: true
         schema:
@@ -444,6 +456,7 @@ paths:
       summary: Delete Monitor Tag
       description: Delete a tag from a specific monitor
       operationId: delete_monitor_tag_monitors__monitor_id__tag_delete
+      x-speakeasy-entity-operation: MonitorTag#delete
       parameters:
       - required: true
         schema:
@@ -584,6 +597,7 @@ paths:
       summary: Delete Status Page
       description: Delete a status page
       operationId: delete_status_page_statuspages__slug__delete
+      x-speakeasy-entity-operation: StatusPage#delete
       parameters:
       - required: true
         schema:
@@ -613,6 +627,7 @@ paths:
       summary: Post Incident
       description: Post an incident to a status page
       operationId: post_incident_statuspages__slug__incident_post
+      x-speakeasy-entity-operation: PostIncident#create
       parameters:
       - required: true
         schema:
@@ -648,6 +663,7 @@ paths:
       summary: Unpin Incident
       description: Unpin an incident from a status page
       operationId: unpin_incident_statuspages__slug__incident_unpin_delete
+      x-speakeasy-entity-operation: UnpinIncident#delete
       parameters:
       - required: true
         schema:
@@ -746,6 +762,7 @@ paths:
       summary: Delete Maintenance
       description: Delete a specific Maintenance
       operationId: delete_maintenance_maintenance__maintenance_id__delete
+      x-speakeasy-entity-operation: Maintenance#delete
       parameters:
       - required: true
         schema:
@@ -995,6 +1012,7 @@ paths:
       summary: Delete Tag
       description: Delete a specific Tag By ID
       operationId: delete_tag_tags__tag_id__delete
+      x-speakeasy-entity-operation: Tag#delete
       parameters:
       - required: true
         schema:
@@ -2038,7 +2056,7 @@ components:
           title: Location
           type: array
           items:
-            anyOf:
+            oneOf:
             - type: string
             - type: integer
         msg:

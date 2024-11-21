@@ -23,6 +23,7 @@ resource "ukumawapi_monitor" "my_monitor" {
   maxredirects               = 6
   maxretries                 = 9
   method                     = "...my_method..."
+  monitor_id                 = 2
   mqtt_password              = "...my_mqtt_password..."
   mqtt_success_message       = "...my_mqtt_success_message..."
   mqtt_topic                 = "...my_mqtt_topic..."

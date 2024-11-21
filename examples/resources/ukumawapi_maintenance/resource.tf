@@ -6,9 +6,10 @@ resource "ukumawapi_maintenance" "my_maintenance" {
   days_of_month = [
     "{ \"see\": \"documentation\" }"
   ]
-  description  = "...my_description..."
-  interval_day = 6
-  strategy     = "recurring-interval"
+  description    = "...my_description..."
+  interval_day   = 6
+  maintenance_id = 8
+  strategy       = "recurring-interval"
   time_range = [
     "{ \"see\": \"documentation\" }"
   ]

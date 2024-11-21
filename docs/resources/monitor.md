@@ -38,6 +38,7 @@ resource "ukumawapi_monitor" "my_monitor" {
   maxredirects               = 6
   maxretries                 = 9
   method                     = "...my_method..."
+  monitor_id                 = 2
   mqtt_password              = "...my_mqtt_password..."
   mqtt_success_message       = "...my_mqtt_success_message..."
   mqtt_topic                 = "...my_mqtt_topic..."
@@ -66,49 +67,50 @@ resource "ukumawapi_monitor" "my_monitor" {
 
 ### Required
 
-- `name` (String) Requires replacement if changed.
-- `type` (String) Enumerate monitor types. must be one of ["http", "port", "ping", "keyword", "grpc-keyword", "dns", "docker", "push", "steam", "gamedig", "mqtt", "sqlserver", "postgres", "mysql", "mongodb", "radius", "redis"]; Requires replacement if changed.
+- `monitor_id` (Number)
+- `name` (String)
+- `type` (String) Enumerate monitor types. must be one of ["http", "port", "ping", "keyword", "grpc-keyword", "dns", "docker", "push", "steam", "gamedig", "mqtt", "sqlserver", "postgres", "mysql", "mongodb", "radius", "redis"]
 
 ### Optional
 
-- `accepted_statuscodes` (List of String) Requires replacement if changed.
-- `auth_domain` (String) Requires replacement if changed.
-- `auth_method` (String) Enumerate authentication methods for monitors. Default: ""; must be one of ["", "basic", "ntlm", "mtls"]; Requires replacement if changed.
-- `auth_workstation` (String) Requires replacement if changed.
-- `basic_auth_pass` (String) Requires replacement if changed.
-- `basic_auth_user` (String) Requires replacement if changed.
-- `body` (String) Requires replacement if changed.
-- `database_connection_string` (String) Requires replacement if changed.
-- `database_query` (String) Requires replacement if changed.
-- `dns_resolve_server` (String) Default: "1.1.1.1"; Requires replacement if changed.
-- `dns_resolve_type` (String) Default: "A"; Requires replacement if changed.
-- `docker_container` (String) Default: ""; Requires replacement if changed.
-- `docker_host` (Number) Requires replacement if changed.
-- `expiry_notification` (Boolean) Default: false; Requires replacement if changed.
-- `headers` (String) Requires replacement if changed.
-- `hostname` (String) Requires replacement if changed.
-- `ignore_tls` (Boolean) Default: false; Requires replacement if changed.
-- `interval` (Number) Default: 60; Requires replacement if changed.
-- `keyword` (String) Requires replacement if changed.
-- `maxredirects` (Number) Default: 10; Requires replacement if changed.
-- `maxretries` (Number) Default: 0; Requires replacement if changed.
-- `method` (String) Default: "GET"; Requires replacement if changed.
-- `mqtt_password` (String) Requires replacement if changed.
-- `mqtt_success_message` (String) Requires replacement if changed.
-- `mqtt_topic` (String) Requires replacement if changed.
-- `mqtt_username` (String) Requires replacement if changed.
-- `notification_id_list` (List of String) Requires replacement if changed.
-- `port` (Number) Default: 53; Requires replacement if changed.
-- `proxy_id` (Number) Requires replacement if changed.
-- `radius_called_station_id` (String) Requires replacement if changed.
-- `radius_calling_station_id` (String) Requires replacement if changed.
-- `radius_password` (String) Requires replacement if changed.
-- `radius_secret` (String) Requires replacement if changed.
-- `radius_username` (String) Requires replacement if changed.
-- `resend_interval` (Number) Default: 0; Requires replacement if changed.
-- `retry_interval` (Number) Default: 60; Requires replacement if changed.
-- `upside_down` (Boolean) Default: false; Requires replacement if changed.
-- `url` (String) Requires replacement if changed.
+- `accepted_statuscodes` (List of String)
+- `auth_domain` (String)
+- `auth_method` (String) Enumerate authentication methods for monitors. Default: ""; must be one of ["", "basic", "ntlm", "mtls"]
+- `auth_workstation` (String)
+- `basic_auth_pass` (String)
+- `basic_auth_user` (String)
+- `body` (String)
+- `database_connection_string` (String)
+- `database_query` (String)
+- `dns_resolve_server` (String) Default: "1.1.1.1"
+- `dns_resolve_type` (String) Default: "A"
+- `docker_container` (String) Default: ""
+- `docker_host` (Number)
+- `expiry_notification` (Boolean) Default: false
+- `headers` (String)
+- `hostname` (String)
+- `ignore_tls` (Boolean) Default: false
+- `interval` (Number) Default: 60
+- `keyword` (String)
+- `maxredirects` (Number) Default: 10
+- `maxretries` (Number) Default: 0
+- `method` (String) Default: "GET"
+- `mqtt_password` (String)
+- `mqtt_success_message` (String)
+- `mqtt_topic` (String)
+- `mqtt_username` (String)
+- `notification_id_list` (List of String)
+- `port` (Number) Default: 53
+- `proxy_id` (Number)
+- `radius_called_station_id` (String)
+- `radius_calling_station_id` (String)
+- `radius_password` (String)
+- `radius_secret` (String)
+- `radius_username` (String)
+- `resend_interval` (Number) Default: 0
+- `retry_interval` (Number) Default: 60
+- `upside_down` (Boolean) Default: false
+- `url` (String)
 
 ### Read-Only
 

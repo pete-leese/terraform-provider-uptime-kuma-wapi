@@ -91,11 +91,11 @@ func (p *UkumawapiProvider) Configure(ctx context.Context, req provider.Configur
 
 func (p *UkumawapiProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewBackupResource,
 		NewMaintenanceResource,
 		NewMonitorResource,
 		NewMonitorTagResource,
 		NewPauseResource,
+		NewPostIncidentResource,
 		NewResumeResource,
 		NewStatusPageResource,
 		NewUserResource,
@@ -103,7 +103,9 @@ func (p *UkumawapiProvider) Resources(ctx context.Context) []func() resource.Res
 }
 
 func (p *UkumawapiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{}
+	return []func() datasource.DataSource{
+		NewMonitorDataSource,
+	}
 }
 
 func New(version string) func() provider.Provider {

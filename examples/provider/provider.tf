@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ukumawapi = {
       source  = "pete-leese/ukumawapi"
-      version = "0.3.0"
+      version = "0.4.5"
     }
   }
 }
