@@ -5,17 +5,17 @@ package sdk
 import (
 	"context"
 	"fmt"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/internal/hooks"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/internal/utils"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/models/shared"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/retry"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/hooks"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/utils"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/shared"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/retry"
 	"net/http"
 	"time"
 )
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
-	"http://192.168.86.94:8000/openapi.json",
+	"http://localhost:8000/openapi.json",
 }
 
 // HTTPClient provides an interface for suplying the SDK with a custom HTTP client
@@ -70,9 +70,10 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 type TerraformProviderUkumawapi struct {
 	Users             *Users
 	Settings          *Settings
-	DataBase          *DataBase
+	Database          *Database
 	Monitor           *Monitor
-	StatusPage        *StatusPage
+	Monitors          *Monitors
+	StatusPages       *StatusPages
 	Maintenance       *Maintenance
 	Tags              *Tags
 	CertificationInfo *CertificationInfo
@@ -158,8 +159,8 @@ func New(opts ...SDKOption) *TerraformProviderUkumawapi {
 			Language:          "go",
 			OpenAPIDocVersion: "0.1.0",
 			SDKVersion:        "0.0.1",
-			GenVersion:        "2.457.9",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.457.9 0.1.0 github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk",
+			GenVersion:        "2.461.4",
+			UserAgent:         "speakeasy-sdk/go 0.0.1 2.461.4 0.1.0 github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk",
 			Hooks:             hooks.New(),
 		},
 	}
@@ -183,11 +184,13 @@ func New(opts ...SDKOption) *TerraformProviderUkumawapi {
 
 	sdk.Settings = newSettings(sdk.sdkConfiguration)
 
-	sdk.DataBase = newDataBase(sdk.sdkConfiguration)
+	sdk.Database = newDatabase(sdk.sdkConfiguration)
 
 	sdk.Monitor = newMonitor(sdk.sdkConfiguration)
 
-	sdk.StatusPage = newStatusPage(sdk.sdkConfiguration)
+	sdk.Monitors = newMonitors(sdk.sdkConfiguration)
+
+	sdk.StatusPages = newStatusPages(sdk.sdkConfiguration)
 
 	sdk.Maintenance = newMaintenance(sdk.sdkConfiguration)
 

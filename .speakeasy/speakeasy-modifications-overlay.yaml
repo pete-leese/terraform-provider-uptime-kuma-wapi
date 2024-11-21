@@ -1,0 +1,403 @@
+overlay: 1.0.0
+info:
+  title: Speakeasy Modifications
+  version: 0.0.2
+  x-speakeasy-metadata:
+    after: ""
+    before: ""
+    type: speakeasy-modifications
+actions:
+  - target: $["paths"]["/maintenance"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.create_maintenance_maintenance_post()
+      after: sdk.maintenance.create()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}/resume"]["post"]
+    update:
+      x-speakeasy-name-override: resume
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.resume_maintenance_maintenance__maintenance_id__resume_post()
+      after: sdk.maintenance.resume()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}"]["get"]
+    update:
+      x-speakeasy-group: monitors
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.get_monitor_monitors__monitor_id__get()
+      after: sdk.monitors.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/users"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Users.get_users_users_get()
+      after: sdk.users.list()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/users/{username}"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Users.get_user_users__username__get()
+      after: sdk.users.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}/beats"]["get"]
+    update:
+      x-speakeasy-group: monitors
+      x-speakeasy-name-override: getBeats
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.monitor_beats_monitors__monitor_id__beats_get()
+      after: sdk.monitors.getBeats()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/maintenance"]["get"]
+    update:
+      x-speakeasy-name-override: getAll
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.get_maintenances_maintenance_get()
+      after: sdk.maintenance.getAll()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}"]["patch"]
+    update:
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.update_maintenance_maintenance__maintenance_id__patch()
+      after: sdk.maintenance.update()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors"]["get"]
+    update:
+      x-speakeasy-name-override: getAll
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.get_monitors_monitors_get()
+      after: sdk.monitor.getAll()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/ping"]["get"]
+    update:
+      x-speakeasy-group: pingAverage
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Ping Average.get_avg_ping_ping_get()
+      after: sdk.pingAverage.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/settings/upload_backup"]["post"]
+    update:
+      x-speakeasy-name-override: uploadBackup
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Settings.upload_backup_settings_upload_backup_post()
+      after: sdk.settings.uploadBackup()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/monitors/{monitor_id}/pause"]["post"]
+    update:
+      x-speakeasy-group: monitors
+      x-speakeasy-name-override: pause
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.pause_monitor_monitors__monitor_id__pause_post()
+      after: sdk.monitors.pause()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/database/shrink"]["post"]
+    update:
+      x-speakeasy-group: database
+      x-speakeasy-name-override: shrink
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.DataBase.shrink_db_database_shrink_post()
+      after: sdk.database.shrink()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/uptime"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Uptime.get_uptime_uptime_get()
+      after: sdk.uptime.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages/{slug}"]["delete"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.delete_status_page_statuspages__slug__delete()
+      after: sdk.statusPages.delete()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.create_monitor_monitors_post()
+      after: sdk.monitor.create()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}/tag"]["delete"]
+    update:
+      x-speakeasy-name-override: deleteTag
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.delete_monitor_tag_monitors__monitor_id__tag_delete()
+      after: sdk.monitor.deleteTag()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}/monitors"]["get"]
+    update:
+      x-speakeasy-name-override: getMonitors
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.add_monitor_maintenance_maintenance__maintenance_id__monitors_get()
+      after: sdk.maintenance.getMonitors()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages/{slug}/incident/unpin"]["delete"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: unpinIncident
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.unpin_incident_statuspages__slug__incident_unpin_delete()
+      after: sdk.statusPages.unpinIncident()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/users/{username}"]["delete"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Users.delete_user_users__username__delete()
+      after: sdk.users.delete()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/tags/{tag_id}"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Tags.get_tag_tags__tag_id__get()
+      after: sdk.tags.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/tags/{tag_id}"]["delete"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Tags.delete_tag_tags__tag_id__delete()
+      after: sdk.tags.delete()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages/{slug}"]["post"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: save
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.save_status_page_statuspages__slug__post()
+      after: sdk.statusPages.save()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.get_maintenance_maintenance__maintenance_id__get()
+      after: sdk.maintenance.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/database/size"]["get"]
+    update:
+      x-speakeasy-group: database
+      x-speakeasy-name-override: getSize
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.DataBase.get_db_size_database_size_get()
+      after: sdk.database.getSize()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}"]["delete"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.delete_maintenance_maintenance__maintenance_id__delete()
+      after: sdk.maintenance.delete()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/info"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Informations.get_info_info_get()
+      after: sdk.informations.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages"]["get"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: getAll
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.get_all_status_pages_statuspages_get()
+      after: sdk.statusPages.getAll()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}/monitors"]["post"]
+    update:
+      x-speakeasy-name-override: addMonitors
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.add_monitor_maintenance_maintenance__maintenance_id__monitors_post()
+      after: sdk.maintenance.addMonitors()
+      reviewed_at: 1732228646336
+      created_at: 1732038107468
+  - target: $["paths"]["/login/access-token"]["post"]
+    update:
+      x-speakeasy-name-override: loginAccessToken
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Authentication.login_access_token_login_access_token_post()
+      after: sdk.authentication.loginAccessToken()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages"]["post"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.add_status_page_statuspages_post()
+      after: sdk.statusPages.create()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}"]["delete"]
+    update:
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.delete_monitor_monitors__monitor_id__delete()
+      after: sdk.monitor.delete()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages/{slug}"]["get"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.get_status_page_statuspages__slug__get()
+      after: sdk.statusPages.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/tags"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Tags.get_tags_tags_get()
+      after: sdk.tags.list()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/statuspages/{slug}/incident"]["post"]
+    update:
+      x-speakeasy-group: statusPages
+      x-speakeasy-name-override: postIncident
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Status Page.post_incident_statuspages__slug__incident_post()
+      after: sdk.statusPages.postIncident()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/users"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Users.create_user_users_post()
+      after: sdk.users.create()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}/resume"]["post"]
+    update:
+      x-speakeasy-group: monitors
+      x-speakeasy-name-override: resume
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.resume_monitor_monitors__monitor_id__resume_post()
+      after: sdk.monitors.resume()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}/tag"]["post"]
+    update:
+      x-speakeasy-name-override: addTag
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.add_monitor_tag_monitors__monitor_id__tag_post()
+      after: sdk.monitor.addTag()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/maintenance/{maintenance_id}/pause"]["post"]
+    update:
+      x-speakeasy-name-override: pause
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Maintenance.pause_maintenance_maintenance__maintenance_id__pause_post()
+      after: sdk.maintenance.pause()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/monitors/{monitor_id}"]["patch"]
+    update:
+      x-speakeasy-group: monitors
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Monitor.update_monitor_monitors__monitor_id__patch()
+      after: sdk.monitors.update()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/cert_info"]["get"]
+    update:
+      x-speakeasy-group: certificationInfo
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Certification Info.get_cert_info_cert_info_get()
+      after: sdk.certificationInfo.get()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469
+  - target: $["paths"]["/tags"]["post"]
+    update:
+      x-speakeasy-name-override: add
+    x-speakeasy-metadata:
+      type: method-name
+      before: sdk.Tags.add_tags_tags_post()
+      after: sdk.tags.add()
+      reviewed_at: 1732228646336
+      created_at: 1732038107469

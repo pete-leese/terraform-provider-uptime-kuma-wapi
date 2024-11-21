@@ -15,7 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-	tfReflect "github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/provider/reflect"
+	tfReflect "github.com/pete-leese/terraform-provider-ukumawapi/internal/provider/reflect"
 	"io"
 	"net/http"
 	"net/http/httputil"

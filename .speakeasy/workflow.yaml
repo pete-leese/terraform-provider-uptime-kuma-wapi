@@ -3,7 +3,9 @@ speakeasyVersion: latest
 sources:
     TerraformProviderUkumawapi-OAS:
         inputs:
-            - location: http://192.168.86.94:8000/openapi.json
+            - location: /Users/pete.leese/terraform-provider-ukumawapi/openapi.yaml
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
         registry:
             location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
 targets:

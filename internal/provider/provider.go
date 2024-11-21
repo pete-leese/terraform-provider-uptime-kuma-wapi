@@ -9,36 +9,36 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/models/shared"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/models/shared"
 	"net/http"
 )
 
-var _ provider.Provider = &TerraformProviderUkumawapiProvider{}
+var _ provider.Provider = &UkumawapiProvider{}
 
-type TerraformProviderUkumawapiProvider struct {
+type UkumawapiProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
 	version string
 }
 
-// TerraformProviderUkumawapiProviderModel describes the provider data model.
-type TerraformProviderUkumawapiProviderModel struct {
+// UkumawapiProviderModel describes the provider data model.
+type UkumawapiProviderModel struct {
 	ServerURL            types.String `tfsdk:"server_url"`
 	OAuth2PasswordBearer types.String `tfsdk:"o_auth2_password_bearer"`
 }
 
-func (p *TerraformProviderUkumawapiProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "terraform-provider-ukumawapi"
+func (p *UkumawapiProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "ukumawapi"
 	resp.Version = p.version
 }
 
-func (p *TerraformProviderUkumawapiProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *UkumawapiProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"server_url": schema.StringAttribute{
-				MarkdownDescription: "Server URL (defaults to http://192.168.86.94:8000/openapi.json)",
+				MarkdownDescription: "Server URL (defaults to http://localhost:8000/openapi.json)",
 				Optional:            true,
 				Required:            false,
 			},
@@ -50,8 +50,8 @@ func (p *TerraformProviderUkumawapiProvider) Schema(ctx context.Context, req pro
 	}
 }
 
-func (p *TerraformProviderUkumawapiProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data TerraformProviderUkumawapiProviderModel
+func (p *UkumawapiProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data UkumawapiProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -62,7 +62,7 @@ func (p *TerraformProviderUkumawapiProvider) Configure(ctx context.Context, req 
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		ServerURL = "http://192.168.86.94:8000/openapi.json"
+		ServerURL = "http://localhost:8000/openapi.json"
 	}
 
 	oAuth2PasswordBearer := new(string)
@@ -89,17 +89,28 @@ func (p *TerraformProviderUkumawapiProvider) Configure(ctx context.Context, req 
 	resp.ResourceData = client
 }
 
-func (p *TerraformProviderUkumawapiProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+func (p *UkumawapiProvider) Resources(ctx context.Context) []func() resource.Resource {
+	return []func() resource.Resource{
+		NewMaintenanceResource,
+		NewMonitorResource,
+		NewMonitorTagResource,
+		NewPauseResource,
+		NewPostIncidentResource,
+		NewResumeResource,
+		NewStatusPageResource,
+		NewUserResource,
+	}
 }
 
-func (p *TerraformProviderUkumawapiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{}
+func (p *UkumawapiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+	return []func() datasource.DataSource{
+		NewMonitorDataSource,
+	}
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &TerraformProviderUkumawapiProvider{
+		return &UkumawapiProvider{
 			version: version,
 		}
 	}

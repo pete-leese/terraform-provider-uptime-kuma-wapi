@@ -1,0 +1,29 @@
+speakeasyVersion: 1.443.0
+sources:
+    TerraformProviderUkumawapi-OAS:
+        sourceNamespace: terraform-provider-ukumawapi-oas
+        sourceRevisionDigest: sha256:4ce7c82020d8817b5c39e80a324db8688562d60f4836024a692298a4e054fc41
+        sourceBlobDigest: sha256:0e037a2dcc2510e761d9ac06656238519769c60a7b56b61f024de7888653cc55
+        tags:
+            - latest
+targets:
+    terraform-provider-ukumawapi:
+        source: TerraformProviderUkumawapi-OAS
+        sourceNamespace: terraform-provider-ukumawapi-oas
+        sourceRevisionDigest: sha256:4ce7c82020d8817b5c39e80a324db8688562d60f4836024a692298a4e054fc41
+        sourceBlobDigest: sha256:0e037a2dcc2510e761d9ac06656238519769c60a7b56b61f024de7888653cc55
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        TerraformProviderUkumawapi-OAS:
+            inputs:
+                - location: /Users/pete.leese/terraform-provider-ukumawapi/openapi.yaml
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            registry:
+                location: registry.speakeasyapi.dev/terraform-provider-ukumawapi/terraform-provider-ukumawapi/terraform-provider-ukumawapi-oas
+    targets:
+        terraform-provider-ukumawapi:
+            target: terraform
+            source: TerraformProviderUkumawapi-OAS

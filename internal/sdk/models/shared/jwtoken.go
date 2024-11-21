@@ -3,7 +3,7 @@
 package shared
 
 import (
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/internal/utils"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/utils"
 )
 
 type JWToken struct {

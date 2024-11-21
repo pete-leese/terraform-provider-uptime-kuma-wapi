@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# terraform-provider-uptime-kuma
-Terraform Provider for Uptime-Kuma
-=======
 # terraform-provider-ukumawapi
 
 Developer-friendly & type-safe Terraform SDK specifically catered to leverage *terraform-provider-ukumawapi* API.
@@ -44,14 +40,14 @@ To install this provider, copy and paste this code into your Terraform configura
 ```hcl
 terraform {
   required_providers {
-    terraform-provider-ukumawapi = {
-      source  = "speakeasy/terraform-provider-ukumawapi"
-      version = "0.0.1"
+    ukumawapi = {
+      source  = "pete-leese/ukumawapi"
+      version = "0.4.5"
     }
   }
 }
 
-provider "terraform-provider-ukumawapi" {
+provider "ukumawapi" {
   # Configuration options
 }
 ```
@@ -62,7 +58,17 @@ provider "terraform-provider-ukumawapi" {
 
 ### Resources
 
+* [ukumawapi_maintenance](docs/resources/maintenance.md)
+* [ukumawapi_monitor](docs/resources/monitor.md)
+* [ukumawapi_monitor_tag](docs/resources/monitor_tag.md)
+* [ukumawapi_pause](docs/resources/pause.md)
+* [ukumawapi_post_incident](docs/resources/post_incident.md)
+* [ukumawapi_resume](docs/resources/resume.md)
+* [ukumawapi_status_page](docs/resources/status_page.md)
+* [ukumawapi_user](docs/resources/user.md)
 ### Data Sources
+
+* [ukumawapi_monitor](docs/data-sources/monitor.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Start Testing the provider locally [usage] -->
@@ -87,7 +93,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
 
 Terraform allows you to use local provider builds by setting a `dev_overrides` block in a configuration file called `.terraformrc`. This block overrides all other configured installation methods.
 
-1. Execute `go build` to construct a binary called `terraform-provider-terraform-provider-ukumawapi`
+1. Execute `go build` to construct a binary called `terraform-provider-ukumawapi`
 2. Ensure that the `.terraformrc` file is configured with a `dev_overrides` section such that your local copy of terraform can see the provider binary
 
 Terraform searches for the `.terraformrc` file in your home directory and applies any configuration settings you set.
@@ -96,7 +102,7 @@ Terraform searches for the `.terraformrc` file in your home directory and applie
 provider_installation {
 
   dev_overrides {
-      "registry.terraform.io/speakeasy/terraform-provider-ukumawapi" = "<PATH>"
+      "registry.terraform.io/pete-leese/ukumawapi" = "<PATH>"
   }
 
   # For all other providers, install them directly from their origin provider
@@ -117,4 +123,3 @@ While we value open-source contributions to this terraform provider, this librar
 We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release. 
 
 ### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=terraform-provider-ukumawapi&utm_campaign=terraform)
->>>>>>> a7fd6da (Initial Commit)

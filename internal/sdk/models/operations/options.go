@@ -4,8 +4,8 @@ package operations
 
 import (
 	"errors"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/internal/utils"
-	"github.com/speakeasy/terraform-provider-terraform-provider-ukumawapi/internal/sdk/retry"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/internal/utils"
+	"github.com/pete-leese/terraform-provider-ukumawapi/internal/sdk/retry"
 	"time"
 )
 
